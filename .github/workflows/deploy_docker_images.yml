@@ -31,4 +31,4 @@ jobs:
           # context: ./postgres-appliance
           context: "{{defaultContext}}:postgres-appliance"
           push: true
-          tags: cdmikechen/postgres/spilo-15:3.0-p1-tslicense-tstool-fix
+          tags: cdmikechen/spilo-15:3.0-p1-tslicense-tstool-fix
