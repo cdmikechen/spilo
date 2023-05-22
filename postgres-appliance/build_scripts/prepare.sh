@@ -23,7 +23,7 @@ if [ "$DEMO" != "true" ]; then
     apt-get install -y pv lzop
     # install etcdctl
     ETCDVERSION=3.3.27
-    curl -L https://github.com/coreos/etcd/releases/download/v${ETCDVERSION}/etcd-v${ETCDVERSION}-linux-"$(dpkg --print-architecture)".tar.gz \
+    curl --retry 3 -L https://ghproxy.com/coreos/etcd/releases/download/v${ETCDVERSION}/etcd-v${ETCDVERSION}-linux-"$(dpkg --print-architecture)".tar.gz \
                 | tar xz -C /bin --strip=1 --wildcards --no-anchored --no-same-owner etcdctl etcd
 fi
 
@@ -38,7 +38,14 @@ DISTRIB_CODENAME=$(sed -n 's/DISTRIB_CODENAME=//p' /etc/lsb-release)
 for t in deb deb-src; do
     echo "$t http://apt.postgresql.org/pub/repos/apt/ ${DISTRIB_CODENAME}-pgdg main" >> /etc/apt/sources.list.d/pgdg.list
 done
-curl -s -o - https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/apt.postgresql.org.gpg
+if [ ! -f "/etc/apt/sources.list.d/pgdg.list" ]; then
+    exit 1
+fi
+
+curl --retry 3 -s -o - https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/apt.postgresql.org.gpg
+if [ ! -f "/etc/apt/trusted.gpg.d/apt.postgresql.org.gpg" ]; then
+    exit 1
+fi
 
 # Clean up
 apt-get purge -y libcap2-bin
