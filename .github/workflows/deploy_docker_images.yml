@@ -32,3 +32,4 @@ jobs:
           context: "{{defaultContext}}:postgres-appliance"
           push: true
           tags: cdmikechen/spilo-15:3.0-p1-tslicense-tstool-fix
+          platforms: linux/amd64,linux/arm64
