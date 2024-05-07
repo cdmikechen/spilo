@@ -12,6 +12,8 @@ jobs:
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -32,4 +34,4 @@ jobs:
           context: "{{defaultContext}}:postgres-appliance"
           push: true
           tags: cdmikechen/spilo-15:3.0-p1-tslicense-tstool-fix-arm
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64
