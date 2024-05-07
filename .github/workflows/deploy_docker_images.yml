@@ -3,7 +3,7 @@ name: Deploy docker images
 on:
   push:
     branches:
-      - 'docker'
+      - '3.2-p1-arm'
 
 jobs:
   docker:
